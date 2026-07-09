@@ -1,0 +1,118 @@
+---
+// NombrePadres.astro
+---
+
+<section class="padres-seccion">
+  <div class="contenido" id="seccion-padres">
+
+    <!-- TEXTO BENDICIÓN -->
+    <p class="bendicion-texto">
+      Con la bendición de Dios y de mis padres,<br />
+      te invitamos a celebrar mi cumpleaños.
+    </p>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- MIS PADRES -->
+    <p class="font-crimson titulo-padres">MIS PADRES</p>
+
+    <!-- NOMBRES -->
+    <p class="font-great-vibes nombre-padre">Lorena Avalos Rocha</p>
+    <p class="font-great-vibes nombre-padre">Gustavo Arteaga Montero</p>
+
+    <!-- SEPARADOR FLORAL -->
+    <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#seccion-padres", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#seccion-padres",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#seccion-padres", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out",
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to("#seccion-padres", {
+            opacity: 0,
+            y: 30,
+            duration: 0.5,
+            ease: "power2.in",
+          });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .padres-seccion {
+    width: 100%;
+    padding: 28px 24px 48px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .bendicion-texto {
+    font-size: clamp(0.88rem, 3.5vw, 1.05rem);
+    color: #1a1a1a;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .separador {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  .titulo-padres {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    color: #C8102E;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .nombre-padre {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .separador-flor {
+    width: clamp(140px, 55vw, 220px);
+    height: auto;
+    opacity: 0.85;
+    margin-top: 24px;
+  }
+</style>

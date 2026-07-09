@@ -1,0 +1,285 @@
+---
+// GaleriaFotos.astro
+---
+
+<section class="galeria-seccion" id="seccion-galeria">
+
+  <!-- SEPARADOR FLORAL -->
+  <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+  <!-- TÍTULO -->
+  <p class="font-crimson titulo-gal">GALERÍA</p>
+  <div class="separador-line"></div>
+
+  <!-- GRID DE FOTOS -->
+  <div class="fotos-grid">
+
+    <!-- FILA 1: dos fotos -->
+    <div class="fila-dos">
+      <div class="foto-card" id="foto-card-0">
+        <img src="/imagenes/foto1.png" alt="Foto 1" />
+      </div>
+      <div class="foto-card" id="foto-card-1">
+        <img src="/imagenes/foto2.png" alt="Foto 2" />
+      </div>
+    </div>
+
+    <!-- FILA 2: tercera foto centrada -->
+    <div class="fila-uno">
+      <div class="foto-card foto-card-grande" id="foto-card-2">
+        <img src="/imagenes/foto3.png" alt="Foto 3" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal-galeria" class="modal-overlay hidden">
+    <button id="cerrar-modal" class="modal-cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="modal-inner">
+      <div id="modal-track" class="modal-track">
+        <div class="modal-slide"><img src="/imagenes/foto1.png" alt="Foto 1" /></div>
+        <div class="modal-slide"><img src="/imagenes/foto2.png" alt="Foto 2" /></div>
+        <div class="modal-slide"><img src="/imagenes/foto3.png" alt="Foto 3" /></div>
+      </div>
+    </div>
+    <button id="modal-prev" class="modal-flecha modal-izq">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button id="modal-next" class="modal-flecha modal-der">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const modal      = document.getElementById("modal-galeria");
+      const modalTrack = document.getElementById("modal-track");
+      const cerrarBtn  = document.getElementById("cerrar-modal");
+      const modalPrev  = document.getElementById("modal-prev");
+      const modalNext  = document.getElementById("modal-next");
+      let modalActual  = 0;
+      const total      = 3;
+
+      function abrirModal(i: number) {
+        modalActual = i;
+        if (!modal || !modalTrack) return;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        (modalTrack as HTMLElement).style.transform = `translateX(-${modalActual * 100}%)`;
+        gsap.fromTo(modal, { opacity: 0 }, { opacity: 1, duration: 0.35 });
+      }
+
+      function moverModal(n: number) {
+        modalActual = (n + total) % total;
+        gsap.to(modalTrack, { x: `-${modalActual * 100}%`, duration: 0.4, ease: "power2.out" });
+      }
+
+      function cerrarModal() {
+        gsap.to(modal, { opacity: 0, duration: 0.3, onComplete: () => {
+          modal?.classList.add("hidden");
+          document.body.style.overflow = "";
+        }});
+      }
+
+      [0, 1, 2].forEach(i => {
+        document.getElementById(`foto-card-${i}`)?.addEventListener("click", () => abrirModal(i));
+      });
+
+      cerrarBtn?.addEventListener("click", cerrarModal);
+      modal?.addEventListener("click", (e) => { if (e.target === modal) cerrarModal(); });
+      modalPrev?.addEventListener("click", (e) => { e.stopPropagation(); moverModal(modalActual - 1); });
+      modalNext?.addEventListener("click", (e) => { e.stopPropagation(); moverModal(modalActual + 1); });
+
+      document.addEventListener("keydown", (e) => {
+        if (modal && !modal.classList.contains("hidden")) {
+          if (e.key === "Escape") cerrarModal();
+          if (e.key === "ArrowLeft") moverModal(modalActual - 1);
+          if (e.key === "ArrowRight") moverModal(modalActual + 1);
+        }
+      });
+
+      // Swipe modal
+      let tx = 0;
+      modal?.addEventListener("touchstart", (e: TouchEvent) => { tx = e.touches[0].clientX; }, { passive: true });
+      modal?.addEventListener("touchend", (e: TouchEvent) => {
+        const d = tx - e.changedTouches[0].clientX;
+        if (Math.abs(d) > 40) moverModal(d > 0 ? modalActual + 1 : modalActual - 1);
+      });
+
+      // Animación entrada
+      gsap.set(".fotos-grid", { opacity: 0, y: 30 });
+      ScrollTrigger.create({
+        trigger: "#seccion-galeria",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to(".fotos-grid", { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" });
+          gsap.fromTo(".foto-card", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.7, ease: "back.out(1.3)", stagger: 0.12, delay: 0.2 });
+        },
+        onLeaveBack: () => gsap.set(".fotos-grid", { opacity: 0, y: 30 }),
+      });
+    });
+  }
+</script>
+
+<style>
+  .galeria-seccion {
+    width: 100%;
+    padding: 0 44px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .separador-flor {
+    width: clamp(140px, 55vw, 220px);
+    height: auto;
+    opacity: 0.85;
+  }
+
+  .titulo-gal {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    color: #C8102E;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .separador-line {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  /* ─── GRID ─── */
+  .fotos-grid {
+    width: 100%;
+    max-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .fila-dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .fila-uno {
+    display: flex;
+    justify-content: center;
+  }
+
+  .foto-card {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(200, 16, 46, 0.2);
+    cursor: pointer;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    aspect-ratio: 3/4;
+  }
+
+  .foto-card:hover {
+    border-color: #C8102E;
+    box-shadow: 0 4px 18px rgba(200, 16, 46, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .foto-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .foto-card-grande {
+    width: 55%;
+    aspect-ratio: 3/4;
+  }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(5, 0, 0, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.hidden { display: none; }
+
+  .modal-inner {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .modal-track {
+    display: flex;
+    will-change: transform;
+  }
+
+  .modal-slide {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 52px;
+  }
+
+  .modal-slide img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid rgba(200, 16, 46, 0.2);
+  }
+
+  .modal-cerrar {
+    position: absolute;
+    top: 18px; right: 18px;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid #C8102E;
+    background: transparent;
+    color: #C8102E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .modal-flecha {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(200, 16, 46, 0.4);
+    background: transparent;
+    color: #C8102E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .modal-izq { left: 10px; }
+  .modal-der { right: 10px; }
+</style>

@@ -1,0 +1,76 @@
+---
+import ReproductorMusica from "../components/ReproductorMusica.astro";
+---
+
+<section class="relative w-full overflow-x-hidden hero-varon">
+
+    <!-- FONDO -->
+    <div class="absolute inset-0 z-0">
+        <img
+            src="/imagenes/fondo3.png"
+            alt="Fondo"
+            class="w-full h-full object-cover object-center"
+        />
+    </div>
+
+    <div class="relative w-full min-h-screen flex items-center justify-center px-6 z-10">
+        <div class="text-center pt-16 w-full max-w-xl flex flex-col items-center gap-6">
+
+            <!-- CORONA -->
+            <img src="/imagenes/corona.png" alt="Corona" class="corona-img" />
+
+            <!-- MIS XV AÑOS -->
+            <p class="font-crimson mis-xv">MIS XV AÑOS</p>
+
+            <!-- NOMBRE -->
+            <h2 class="font-gellatio nombre-axel">Axel Stif</h2>
+
+            <!-- FRASE -->
+            <p class="frase-texto">
+                "hay momentos inolvidables que se celebran una sola vez, y este será uno de ellos"
+            </p>
+
+            <!-- REPRODUCTOR -->
+            <div class="w-full mt-4">
+                <ReproductorMusica />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero-varon {
+        min-height: 100svh;
+        position: relative;
+    }
+
+    .corona-img {
+        width: clamp(100px, 35vw, 180px);
+        height: auto;
+        object-fit: contain;
+    }
+
+    .mis-xv {
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        color: #000000;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+    }
+
+    .nombre-axel {
+        font-size: clamp(3rem, 10vw, 5.5rem);
+        color: #C8102E;
+        line-height: 1.1;
+        letter-spacing: 0.03em;
+    }
+
+    .frase-texto {
+        font-size: clamp(0.95rem, 3vw, 1.15rem);
+        color: #000000;
+        font-style: italic;
+        line-height: 1.6;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+</style>

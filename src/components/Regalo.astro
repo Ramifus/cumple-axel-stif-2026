@@ -1,0 +1,163 @@
+---
+// Regalo.astro
+---
+
+<section class="regalo-seccion">
+  <div class="contenido" id="seccion-regalo">
+
+    <!-- SEPARADOR FLORAL -->
+    <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+    <!-- TÍTULO -->
+    <p class="font-crimson titulo-regalo">MESA DE REGALOS</p>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- MENSAJE -->
+    <p class="mensaje-texto">
+      Lo más valioso es compartir este momento contigo.
+      Si deseas brindarme un obsequio, puedes hacerlo a través del código QR.
+    </p>
+
+    <!-- AVISO DESTACADO -->
+    <div class="aviso-wrap">
+      <div class="aviso-linea"></div>
+      <p class="font-crimson aviso-texto">
+        Con cariño te informamos que el día del evento no se recibirán obsequios físicos en el local.
+      </p>
+      <div class="aviso-linea"></div>
+    </div>
+
+    <!-- CARD QR -->
+    <div class="qr-card" id="card-qr">
+      <img src="/imagenes/qr2.png" alt="Código QR" class="qr-img" />
+      <p class="font-crimson qr-texto">Escanea el código</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#seccion-regalo", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#seccion-regalo",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#seccion-regalo", { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+        },
+        onLeaveBack: () => {
+          gsap.set("#seccion-regalo", { opacity: 0, y: 30 });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .regalo-seccion {
+    width: 100%;
+    padding: 0 24px 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .separador-flor {
+    width: clamp(140px, 55vw, 220px);
+    height: auto;
+    opacity: 0.85;
+  }
+
+  .titulo-regalo {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    color: #C8102E;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .separador {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  .aviso-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .aviso-linea {
+    width: 40px;
+    height: 1px;
+    background: #C8102E;
+    opacity: 0.5;
+    border-radius: 2px;
+  }
+
+  .aviso-texto {
+    font-size: clamp(0.82rem, 3vw, 0.95rem);
+    color: #C8102E;
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  .mensaje-texto {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #1a1a1a;
+    line-height: 1.7;
+    margin: 0;
+    font-style: italic;
+    padding: 0 20px;
+  }
+
+  .qr-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1.5px solid #C8102E;
+    border-radius: 12px;
+    padding: 16px;
+    background: rgba(255, 252, 250, 0.96);
+    box-shadow: 0 2px 12px rgba(200, 16, 46, 0.1);
+  }
+
+  .qr-img {
+    width: clamp(160px, 55vw, 200px);
+    height: auto;
+    object-fit: contain;
+  }
+
+  .qr-texto {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #C8102E;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+</style>

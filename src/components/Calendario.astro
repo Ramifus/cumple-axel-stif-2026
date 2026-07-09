@@ -1,0 +1,175 @@
+---
+// Calendario.astro
+---
+
+<section class="cal-seccion">
+  <div class="cal-card" id="calendario-card">
+
+    <!-- MES Y AÑO -->
+    <h3 class="font-crimson nombre-mes" id="nombre-mes"></h3>
+
+    <!-- SEPARADOR -->
+    <div class="separador-cal"></div>
+
+    <!-- DÍAS DE LA SEMANA -->
+    <div class="grid-cal">
+      {["D","L","M","M","J","V","S"].map((d) => (
+        <div class="dia-semana font-crimson">{d}</div>
+      ))}
+    </div>
+
+    <!-- DÍAS DEL MES -->
+    <div class="grid-cal" id="dias-container"></div>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  const DIA_ESPECIAL = 8;
+  const MES_ESPECIAL = 8;
+  const AÑO_ESPECIAL = 2026;
+
+  const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio",
+                 "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+
+  function generarCalendario() {
+    const nombreMes = document.getElementById("nombre-mes");
+    if (nombreMes) nombreMes.textContent = `${MESES[MES_ESPECIAL - 1]} ${AÑO_ESPECIAL}`;
+
+    const primerDia = new Date(AÑO_ESPECIAL, MES_ESPECIAL - 1, 1).getDay();
+    const ultimoDia = new Date(AÑO_ESPECIAL, MES_ESPECIAL, 0).getDate();
+    const contenedor = document.getElementById("dias-container");
+    if (!contenedor) return;
+    contenedor.innerHTML = "";
+
+    for (let i = 0; i < primerDia; i++) {
+      contenedor.appendChild(document.createElement("div"));
+    }
+
+    for (let dia = 1; dia <= ultimoDia; dia++) {
+      const celda = document.createElement("div");
+
+      if (dia === DIA_ESPECIAL) {
+        celda.className = "dia-celda dia-especial dia-calendario";
+        celda.innerHTML = `<span class="font-crimson">${dia}</span>`;
+      } else {
+        celda.className = "dia-celda dia-normal dia-calendario";
+        celda.innerHTML = `<span class="font-crimson">${dia}</span>`;
+      }
+
+      contenedor.appendChild(celda);
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      generarCalendario();
+
+      gsap.set("#calendario-card", { opacity: 0, y: 24 });
+
+      ScrollTrigger.create({
+        trigger: "#calendario-card",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#calendario-card", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
+          gsap.to(".dia-calendario", {
+            opacity: 1, scale: 1, duration: 0.3,
+            stagger: { amount: 0.4, from: "start" },
+            ease: "power2.out", delay: 0.3,
+          });
+          gsap.to("#dia-especial", {
+            scale: 1.08, duration: 2, ease: "sine.inOut",
+            yoyo: true, repeat: -1, delay: 1,
+          });
+        },
+        onLeaveBack: () => {
+          gsap.set("#calendario-card", { opacity: 0, y: 24 });
+          gsap.set(".dia-calendario", { opacity: 0, scale: 0.8 });
+        },
+      });
+
+      gsap.set(".dia-calendario", { opacity: 0, scale: 0.8 });
+    });
+  }
+</script>
+
+<style>
+  .cal-seccion {
+    width: 100%;
+    padding: 0 24px 32px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cal-card {
+    width: 100%;
+    max-width: 220px;
+    background: rgba(255, 252, 250, 0.96);
+    border: 1.5px solid #C8102E;
+    border-radius: 10px;
+    padding: 10px 10px;
+    box-shadow: 0 2px 12px rgba(200, 16, 46, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nombre-mes {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #1a1a1a;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .separador-cal {
+    width: 36px;
+    height: 1px;
+    background: #C8102E;
+    border-radius: 2px;
+    margin: 0 auto;
+  }
+
+  .grid-cal {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .dia-semana {
+    text-align: center;
+    font-size: 0.6rem;
+    color: #C8102E;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 1px 0;
+  }
+
+  .dia-celda {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 0.62rem;
+  }
+
+  .dia-normal {
+    color: #1a1a1a;
+  }
+
+  .dia-especial {
+    background: #C8102E;
+    border-radius: 50%;
+    font-weight: 700;
+    box-shadow: 0 1px 5px rgba(200, 16, 46, 0.4);
+  }
+
+  .dia-especial span {
+    color: #ffffff;
+  }
+</style>

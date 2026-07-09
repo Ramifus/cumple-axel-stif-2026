@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+
+/* Para el nombre */
+.font-great-vibes {
+  font-family: 'Great Vibes', cursive !important;
+}
+
+/* Para mis XV años */
+.font-crimson {
+  font-family: 'Crimson Text', serif !important;
+}
+
+/* Para dedicatoria*/
+.font-cormorant {
+  font-family: 'Cormorant Garamond', serif !important;
+}
+
+/*Para texto con Charm */
+.font-charm {
+  font-family: 'Charm', cursive !important;
+}
+
+
+@font-face {
+  font-family: 'Scotlandia';
+  src: url('/fonts/Scotlandia.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.font-scotlandia {
+  font-family: 'Scotlandia', cursive !important;
+}
+
+@font-face {
+  font-family: 'Gellatio';
+  src: url('/fonts/Gellatio Personal Use Only.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-gellatio {
+  font-family: 'Gellatio', cursive !important;
+}

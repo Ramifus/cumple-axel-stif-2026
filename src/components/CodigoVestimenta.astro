@@ -1,0 +1,122 @@
+---
+// CodigoVestimenta.astro
+---
+
+<section class="vest-seccion">
+  <div class="contenido" id="seccion-vestimenta">
+
+    <!-- SEPARADOR FLORAL -->
+    <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+    <!-- TÍTULO -->
+    <p class="font-crimson titulo-vest">CÓDIGO DE VESTIMENTA</p>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- ICONO -->
+    <div class="icono-wrap" id="imagen-vestimenta">
+      <img src="/imagenes/Vestimenta.png" alt="Vestimenta" class="icono-vest" />
+    </div>
+
+    <!-- DESCRIPCIÓN -->
+    <h3 class="font-great-vibes desc-vest">Traje de Gala</h3>
+
+    <!-- NOTA -->
+    <!-- <p class="nota-vest">
+      Te pedimos asistir con tu mejor elegancia para hacer de esta noche un momento inolvidable.
+    </p> -->
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#seccion-vestimenta", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#seccion-vestimenta",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#seccion-vestimenta", { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+        },
+        onLeaveBack: () => {
+          gsap.set("#seccion-vestimenta", { opacity: 0, y: 30 });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .vest-seccion {
+    width: 100%;
+    padding: 0 24px 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .separador-flor {
+    width: clamp(140px, 55vw, 220px);
+    height: auto;
+    opacity: 0.85;
+  }
+
+  .titulo-vest {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    color: #C8102E;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .separador {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  .icono-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .icono-vest {
+    width: clamp(60px, 18vw, 90px);
+    height: auto;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(12%) sepia(85%) saturate(4000%) hue-rotate(345deg) brightness(80%);
+  }
+
+  .desc-vest {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .nota-vest {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #1a1a1a;
+    line-height: 1.7;
+    font-style: italic;
+    margin: 0;
+    padding: 0 8px;
+  }
+</style>

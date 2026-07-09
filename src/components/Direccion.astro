@@ -1,0 +1,173 @@
+---
+// Direccion.astro
+---
+
+<section class="dir-seccion">
+  <div class="contenido" id="seccion-direccion">
+
+    <!-- SEPARADOR FLORAL -->
+    <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+    <!-- TÍTULO -->
+    <p class="font-crimson titulo-dir">RECEPCIÓN SOCIAL</p>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- ICONO PIN -->
+    <div class="icono-wrap" id="icono-direccion">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icono-pin">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+      </svg>
+    </div>
+
+    <!-- NOMBRE LUGAR -->
+    <h3 class="font-crimson nombre-lugar">Lemon City</h3>
+
+    <!-- HORA -->
+    <p class="font-crimson hora-dir">Hora: 18:00</p>
+
+    <!-- BOTÓN -->
+    <a
+      href="https://maps.app.goo.gl/SY7RKp9P24325mEA8"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="boton-ubicacion"
+      id="boton-ubicacion"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="boton-icon">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+      </svg>
+      <span class="font-crimson boton-texto">Ver Ubicación</span>
+    </a>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#seccion-direccion", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#seccion-direccion",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#seccion-direccion", { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+        },
+        onLeaveBack: () => {
+          gsap.set("#seccion-direccion", { opacity: 0, y: 30 });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .dir-seccion {
+    width: 100%;
+    padding: 0 24px 40px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+  }
+
+  .separador-flor {
+    width: clamp(140px, 55vw, 220px);
+    height: auto;
+    opacity: 0.85;
+  }
+
+  .titulo-dir {
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    color: #C8102E;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .separador {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  .icono-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icono-pin {
+    width: 44px;
+    height: 44px;
+    color: #C8102E;
+  }
+
+  .nombre-lugar {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .dir-texto {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #1a1a1a;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px;
+  }
+
+  .hora-dir {
+    font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+    color: #C8102E;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  .boton-ubicacion {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 1.5px solid #C8102E;
+    background: transparent;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.2s ease;
+    margin-top: 4px;
+  }
+
+  .boton-ubicacion:hover {
+    background: rgba(200, 16, 46, 0.07);
+    transform: scale(1.04);
+  }
+
+  .boton-icon {
+    width: 18px;
+    height: 18px;
+    color: #C8102E;
+    flex-shrink: 0;
+  }
+
+  .boton-texto {
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #C8102E;
+    letter-spacing: 0.05em;
+  }
+</style>

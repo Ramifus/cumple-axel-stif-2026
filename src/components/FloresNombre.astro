@@ -1,0 +1,94 @@
+---
+import ReproductorMusica from "../components/ReproductorMusica.astro";
+---
+
+<section class="hero-varon">
+    <div class="contenido">
+
+        <!-- CORONA -->
+        <img src="/imagenes/corona.png" alt="Corona" class="corona-img" />
+
+        <!-- MIS XV AÑOS -->
+        <p class="font-crimson mis-xv">MIS XV AÑOS</p>
+
+        <!-- NOMBRE -->
+        <h1 class="font-gellatio nombre-axel">Axel Stif</h1>
+
+        <!-- SEPARADOR FLORAL -->
+        <img src="/imagenes/flor.png" alt="" class="separador-flor" />
+
+        <!-- FRASE -->
+        <p class="frase-texto">
+            "Hay momentos inolvidables que se celebran una sola vez,<br />
+            y este será uno de ellos."
+        </p>
+
+        <!-- REPRODUCTOR -->
+        <div class="reproductor-wrap">
+            <ReproductorMusica />
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .hero-varon {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px 0;
+    }
+
+    .contenido {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+    }
+
+    .corona-img {
+        width: clamp(60px, 18vw, 100px);
+        height: auto;
+        object-fit: contain;
+    }
+
+    .mis-xv {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+        color: #1a1a1a;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    .nombre-axel {
+        font-size: clamp(3rem, 11vw, 4.8rem);
+        color: #C8102E;
+        line-height: 1;
+        margin-top: 18px;
+    }
+
+    .separador-flor {
+        width: clamp(140px, 55vw, 220px);
+        height: auto;
+        opacity: 0.85;
+    }
+
+    .frase-texto {
+        font-size: clamp(1.05rem, 4.5vw, 1.3rem);
+        color: #1a1a1a;
+        font-style: italic;
+        line-height: 1.7;
+        max-width: 240px;
+        margin: 0 auto;
+        padding: 0 8px;
+    }
+
+    .reproductor-wrap {
+        width: 100%;
+        margin-top: 8px;
+    }
+</style>

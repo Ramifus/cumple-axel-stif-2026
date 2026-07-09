@@ -1,0 +1,151 @@
+---
+// Fecha.astro
+---
+
+<section class="fecha-seccion">
+  <div class="contenido" id="fecha-evento">
+
+    <!-- ACOMPÁÑANOS -->
+    <p class="texto-invitacion">
+      Acompáñanos este día<br />tan especial
+    </p>
+
+    <!-- SEPARADOR -->
+    <div class="separador"></div>
+
+    <!-- FECHA -->
+    <div class="fecha-fila">
+
+      <!-- MIÉRCOLES -->
+      <div class="col-lateral">
+        <div class="linea-fecha"></div>
+        <span class="font-crimson dia-mes">SÁBADO</span>
+        <div class="linea-fecha"></div>
+      </div>
+
+      <!-- NÚMERO DÍA -->
+      <span class="font-crimson numero-dia">08</span>
+
+      <!-- MARZO -->
+      <div class="col-lateral">
+        <div class="linea-fecha"></div>
+        <span class="font-crimson dia-mes">AGOSTO</span>
+        <div class="linea-fecha"></div>
+      </div>
+
+    </div>
+
+    <!-- AÑO -->
+    <p class="font-crimson anio-texto">2026</p>
+
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.set("#fecha-evento", { opacity: 0, y: 30 });
+
+      ScrollTrigger.create({
+        trigger: "#fecha-evento",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#fecha-evento", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power2.out",
+          });
+        },
+        onLeaveBack: () => {
+          gsap.to("#fecha-evento", {
+            opacity: 0,
+            y: 30,
+            duration: 0.5,
+            ease: "power2.in",
+          });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .fecha-seccion {
+    width: 100%;
+    padding: 0 24px 24px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .texto-invitacion {
+    font-size: clamp(1.05rem, 4.5vw, 1.3rem);
+    color: #C8102E;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .separador {
+    width: 50px;
+    height: 1.5px;
+    background: #C8102E;
+    border-radius: 2px;
+  }
+
+  .fecha-fila {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .col-lateral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 80px;
+  }
+
+  .linea-fecha {
+    width: 100%;
+    height: 1px;
+    background: #C8102E;
+    opacity: 0.5;
+  }
+
+  .dia-mes {
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+    color: #C8102E;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .numero-dia {
+    font-size: clamp(5rem, 20vw, 7rem);
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  .anio-texto {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    color: #1a1a1a;
+    margin: 0;
+  }
+</style>

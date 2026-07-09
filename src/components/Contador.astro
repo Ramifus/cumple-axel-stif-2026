@@ -1,0 +1,174 @@
+---
+// Contador.astro
+---
+
+<section class="contador-seccion">
+
+  <!-- TÍTULO -->
+  <p class="font-scotlandia titulo-faltan" id="titulo-contador">Faltan</p>
+
+  <!-- CARD -->
+  <div class="cnt-card" id="card-contador">
+    <div class="cnt-fila">
+
+      <!-- DÍAS -->
+      <div class="cnt-grupo">
+        <span class="font-crimson numero-cnt" id="dias">00</span>
+        <span class="font-crimson etiqueta-cnt">Días</span>
+      </div>
+
+      <div class="sep-dots"><span></span><span></span></div>
+
+      <!-- HORAS -->
+      <div class="cnt-grupo">
+        <span class="font-crimson numero-cnt" id="horas">00</span>
+        <span class="font-crimson etiqueta-cnt">Horas</span>
+      </div>
+
+      <div class="sep-dots"><span></span><span></span></div>
+
+      <!-- MINUTOS -->
+      <div class="cnt-grupo">
+        <span class="font-crimson numero-cnt" id="minutos">00</span>
+        <span class="font-crimson etiqueta-cnt">Min</span>
+      </div>
+
+      <div class="sep-dots"><span></span><span></span></div>
+
+      <!-- SEGUNDOS -->
+      <div class="cnt-grupo">
+        <span class="font-crimson numero-cnt" id="segundos">00</span>
+        <span class="font-crimson etiqueta-cnt">Seg</span>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const fechaEvento = new Date("2026-08-08T18:00:00").getTime();
+
+      function actualizarContador() {
+        const ahora = new Date().getTime();
+        const diferencia = fechaEvento - ahora;
+
+        const diasEl    = document.getElementById("dias");
+        const horasEl   = document.getElementById("horas");
+        const minutosEl = document.getElementById("minutos");
+        const segundosEl= document.getElementById("segundos");
+
+        if (diferencia > 0) {
+          const dias    = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+          const horas   = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+          const segundos= Math.floor((diferencia % (1000 * 60)) / 1000);
+
+          if (diasEl)     diasEl.textContent     = String(dias).padStart(2, "0");
+          if (horasEl)    horasEl.textContent     = String(horas).padStart(2, "0");
+          if (minutosEl)  minutosEl.textContent   = String(minutos).padStart(2, "0");
+          if (segundosEl) segundosEl.textContent  = String(segundos).padStart(2, "0");
+        } else {
+          [diasEl, horasEl, minutosEl, segundosEl].forEach(el => { if (el) el.textContent = "00"; });
+        }
+      }
+
+      actualizarContador();
+      setInterval(actualizarContador, 1000);
+
+      gsap.set("#titulo-contador", { opacity: 0, y: -20 });
+      gsap.set("#card-contador", { opacity: 0, y: 24 });
+
+      ScrollTrigger.create({
+        trigger: "#card-contador",
+        start: "top 90%",
+        onEnter: () => {
+          gsap.to("#titulo-contador", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" });
+          gsap.to("#card-contador",   { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay: 0.15 });
+        },
+        onLeaveBack: () => {
+          gsap.set("#titulo-contador", { opacity: 0, y: -20 });
+          gsap.set("#card-contador",   { opacity: 0, y: 24 });
+        },
+      });
+    });
+  }
+</script>
+
+<style>
+  .contador-seccion {
+    width: 100%;
+    padding: 0 24px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .titulo-faltan {
+    font-size: clamp(0.88rem, 3.5vw, 1.05rem);
+    color: #C8102E;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .cnt-card {
+    width: 100%;
+    max-width: 240px;
+    background: rgba(255, 252, 250, 0.96);
+    border: 1.5px solid #C8102E;
+    border-radius: 10px;
+    padding: 10px 10px;
+    box-shadow: 0 2px 12px rgba(200, 16, 46, 0.1);
+  }
+
+  .cnt-fila {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .cnt-grupo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .numero-cnt {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    color: #1a1a1a;
+    line-height: 1;
+  }
+
+  .etiqueta-cnt {
+    font-size: 0.58rem;
+    color: #C8102E;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .sep-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 18px;
+  }
+
+  .sep-dots span {
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #C8102E;
+    opacity: 0.6;
+  }
+</style>
